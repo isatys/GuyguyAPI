@@ -1,0 +1,459 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a messaging"
+  version: "1.0.0"
+  title: "API LIKE DISCORD"
+  contact:
+    email: "isatys.riviere@ynov.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/ynov-Campus/APYTypeDiscord/1.0.0"
+tags:
+- name: "User"
+  description: "Instant messaging users"
+- name: "Message"
+  description: "Messages sent by users"
+- name: "Server"
+  description: "Messages sent by users"
+- name: "Admin"
+  description: "Server administrators"
+schemes:
+- "https"
+paths:
+  /users:
+    get:
+      tags:
+      - "User"
+      summary: "The list of users"
+      description: "List of users\n"
+      operationId: "users"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userName"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "userAdmin"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "password"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "email"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "User find"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        "400":
+          description: "bad input parameter"
+      x-swagger-router-controller: "User"
+  /createUser:
+    post:
+      tags:
+      - "User"
+      summary: "Creation of a new user"
+      operationId: "CreateUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userName"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "userAdmin"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "password"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "user created"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "an existing user already exists"
+      x-swagger-router-controller: "User"
+  /editUser:
+    put:
+      tags:
+      - "User"
+      summary: "Edit user"
+      operationId: "editUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userName"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "userAdmin"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "password"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "email"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "user updated"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "the parameters already exists"
+      x-swagger-router-controller: "User"
+  /deleteUser:
+    delete:
+      tags:
+      - "User"
+      summary: "delete user"
+      operationId: "deleteUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userName"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "userAdmin"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "password"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "email"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "User that was deleted"
+        "400":
+          description: "The user does not exist"
+      x-swagger-router-controller: "User"
+  /messages:
+    get:
+      tags:
+      - "Message"
+      summary: "The message post"
+      operationId: "getMessage"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "message"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "email"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "serverName"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "Messages find"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Message"
+        "400":
+          description: "There is no messages from this user"
+      x-swagger-router-controller: "Message"
+  /createMessage:
+    post:
+      tags:
+      - "Message"
+      summary: "Create new message"
+      operationId: "createMessage"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "message"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "serverName"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "Create new message"
+        "400":
+          description: "User no existing"
+      x-swagger-router-controller: "Message"
+  /editeMessage:
+    put:
+      tags:
+      - "Message"
+      summary: "Edit the message"
+      operationId: "editMessage"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "message"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "serverName"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "message updated"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "the parameters already exists"
+      x-swagger-router-controller: "Message"
+  /deleteMessage:
+    delete:
+      tags:
+      - "Message"
+      summary: "delete message"
+      operationId: "deleteMessage"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "message"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "serverName"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "Message that was deleted"
+        "400":
+          description: "The user does not exist"
+      x-swagger-router-controller: "Message"
+  /server:
+    get:
+      tags:
+      - "Server"
+      summary: "The list server"
+      operationId: "server"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "serverName"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "admin"
+        in: "query"
+        description: "The server admin user name"
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "Server find"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Server"
+        "400":
+          description: "The server does not exist"
+      x-swagger-router-controller: "Server"
+  /createServer:
+    post:
+      tags:
+      - "Server"
+      summary: "Create new server"
+      operationId: "createServer"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "serverName"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "admin"
+        in: "query"
+        description: "The server admin user name"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "Create new server"
+        "400":
+          description: "Admin does not exist"
+      x-swagger-router-controller: "Server"
+  /editServer:
+    put:
+      tags:
+      - "Server"
+      summary: "Edit the server"
+      operationId: "editServer"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "serverName"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "server updated"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: "the parameters already exists"
+      x-swagger-router-controller: "Server"
+  /deleteServer:
+    delete:
+      tags:
+      - "Server"
+      summary: "delete message"
+      operationId: "deleteServer"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "serverName"
+        in: "query"
+        description: "The name server"
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "Th server that was deleted"
+        "400":
+          description: "The server does not exist"
+      x-swagger-router-controller: "Server"
+  /admin:
+    get:
+      tags:
+      - "Admin"
+      summary: "The list of admin user"
+      description: "List of users admin \n"
+      operationId: "adminUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "admin"
+        in: "query"
+        description: "The user name of the administrator"
+        required: false
+        type: "string"
+      - name: "email"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "User admin find"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/UserAdmin"
+        "400":
+          description: "User is not admin"
+      x-swagger-router-controller: "Admin"
+definitions:
+  User:
+    type: "object"
+    required:
+    - "email"
+    - "id"
+    - "name"
+    - "password"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      name:
+        type: "string"
+        example: "John Doe"
+      password:
+        type: "string"
+        example: "johndoe"
+      email:
+        type: "string"
+        example: "john.doe@gmail.com"
+    example:
+      password: "johndoe"
+      name: "John Doe"
+      id: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      email: "john.doe@gmail.com"
+  Message:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+    example:
+      id: 0
+  Server:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+    example:
+      id: 0
+  UserAdmin:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+    example:
+      id: 0
