@@ -56,10 +56,9 @@ exports.editUser = function(userName,userAdmin,password,email) {
  * email String 
  * userName String  (optional)
  * userAdmin String  (optional)
- * password String  (optional)
  * returns List
  **/
-exports.users = function(email,userName,userAdmin,password) {
+exports.users = function(email,userName,userAdmin) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {};

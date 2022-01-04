@@ -49,8 +49,7 @@ module.exports.users = function users (req, res, next) {
   var email = req.swagger.params['email'].value;
   var userName = req.swagger.params['userName'].value;
   var userAdmin = req.swagger.params['userAdmin'].value;
-  var password = req.swagger.params['password'].value;
-  User.users(email,userName,userAdmin,password)
+  User.users(email,userName,userAdmin)
     .then(function (response) {
       utils.writeJson(res, response);
     })
