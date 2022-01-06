@@ -3,11 +3,28 @@
 var fs = require('fs'),
     path = require('path'),
     http = require('http');
+// MongoDB with mongoose
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017';
+let db
+ 
+MongoClient.connect(url, function(err, db) {
+  console.log("Connected successfully to server");
+  if (err) throw err;
+  var dbo = db.db("DiscordAPI");
+    db.close();
+});
 
-var app = require('connect')();
+var express = require('express');
+var app = express();
 var swaggerTools = require('swagger-tools');
 var jsyaml = require('js-yaml');
 var serverPort = 8080;
+
+app.get('/parkings', (req,res) => {
+  res.send("Liste des parkings")
+})
+
 
 // swaggerRouter configuration
 var options = {
@@ -40,5 +57,4 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
     console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
     console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
   });
-
 });

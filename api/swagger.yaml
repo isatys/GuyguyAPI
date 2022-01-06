@@ -18,7 +18,7 @@ tags:
   description: "Messages sent by users"
 - name: "Server"
   description: "administrators' servers"
-- name: "Admin"
+- name: "Role"
   description: "An administrator is a user with more permissions"
 - name: "Channel"
   description: "The channel is part of the server"
@@ -39,7 +39,7 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "userAdmin"
+      - name: "role"
         in: "query"
         required: false
         type: "string"
@@ -72,7 +72,7 @@ paths:
         in: "query"
         required: true
         type: "string"
-      - name: "userAdmin"
+      - name: "role"
         in: "query"
         required: false
         type: "string"
@@ -107,7 +107,7 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "userAdmin"
+      - name: "role"
         in: "query"
         required: false
         type: "string"
@@ -142,7 +142,7 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "userAdmin"
+      - name: "role"
         in: "query"
         required: false
         type: "string"
@@ -291,9 +291,9 @@ paths:
         in: "query"
         required: true
         type: "string"
-      - name: "admin"
+      - name: "role"
         in: "query"
-        description: "The server admin user name"
+        description: "The server role user name"
         required: false
         type: "string"
       responses:
@@ -319,16 +319,16 @@ paths:
         in: "query"
         required: true
         type: "string"
-      - name: "admin"
+      - name: "role"
         in: "query"
-        description: "The server admin user name"
+        description: "The server role user name"
         required: false
         type: "string"
       responses:
         "201":
           description: "Create new server"
         "400":
-          description: "Admin does not exist"
+          description: "Role does not exist"
       x-swagger-router-controller: "Server"
   /editServer:
     put:
@@ -388,9 +388,9 @@ paths:
         in: "query"
         required: true
         type: "string"
-      - name: "admin"
+      - name: "role"
         in: "query"
-        description: "The channel admin user name"
+        description: "The channel role user name"
         required: false
         type: "string"
       responses:
@@ -416,9 +416,9 @@ paths:
         in: "query"
         required: true
         type: "string"
-      - name: "admin"
+      - name: "role"
         in: "query"
-        description: "The channel admin user name"
+        description: "The channel role user name"
         required: false
         type: "string"
       responses:
@@ -472,17 +472,17 @@ paths:
         "400":
           description: "The channel does not exist"
       x-swagger-router-controller: "Channel"
-  /admin:
+  /role:
     get:
       tags:
-      - "Admin"
-      summary: "The list of admin user"
-      description: "List of users admin \n"
-      operationId: "adminUser"
+      - "Role"
+      summary: "The list of role user"
+      description: "List of users role \n"
+      operationId: "Role"
       produces:
       - "application/json"
       parameters:
-      - name: "admin"
+      - name: "role"
         in: "query"
         description: "The user name of the administrator"
         required: false
@@ -493,14 +493,14 @@ paths:
         type: "string"
       responses:
         "200":
-          description: "User admin find"
+          description: "User role find"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/UserAdmin"
+              $ref: "#/definitions/Role"
         "400":
-          description: "User is not admin"
-      x-swagger-router-controller: "Admin"
+          description: "User is not role"
+      x-swagger-router-controller: "Role"
 definitions:
   User:
     type: "object"
@@ -557,24 +557,24 @@ definitions:
       serverName:
         type: "string"
         example: "PlanningCours"
-      admin:
+      role:
         type: "string"
         example: "johnDoe"
     example:
       serverName: "PlanningCours"
-      admin: "johnDoe"
+      role: "johnDoe"
       id: 0
-  UserAdmin:
+  Role:
     type: "object"
     properties:
-      admin:
+      role:
         type: "string"
         example: "johnDoe"
       email:
         type: "string"
         example: "john.doe@gmail.com"
     example:
-      admin: "johnDoe"
+      role: "johnDoe"
       email: "john.doe@gmail.com"
   Channel:
     type: "object"
@@ -582,9 +582,9 @@ definitions:
       channelName:
         type: "string"
         example: "Anglais"
-      admin:
+      role:
         type: "string"
         example: "johnD"
     example:
-      admin: "johnD"
+      role: "johnD"
       channelName: "Anglais"
