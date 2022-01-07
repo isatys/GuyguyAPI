@@ -4,9 +4,9 @@ var utils = require('../utils/writer.js');
 var Admin = require('../service/AdminService');
 
 module.exports.adminUser = function adminUser (req, res, next) {
-  var admin = req.swagger.params['admin'].value;
+  var role = req.swagger.params['role'].value;
   var email = req.swagger.params['email'].value;
-  Admin.adminUser(admin,email)
+  Admin.adminUser(role,email)
     .then(function (response) {
       utils.writeJson(res, response);
     })

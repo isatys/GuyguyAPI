@@ -11,6 +11,7 @@ info:
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "virtserver.swaggerhub.com"
 basePath: "/ynov-Campus/APYTypeDiscord/1.0.0"
+
 tags:
 - name: "User"
   description: "Instant messaging users"
@@ -25,6 +26,32 @@ tags:
 schemes:
 - "https"
 paths:
+  /users/{id}:
+    get:
+      summary: Gets a user by ID.
+      operationId: "users"
+      security:
+        - OAuth2: [admin]
+      tags:
+        - "User"
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          type: integer
+          required: true
+      responses:
+        "200":
+          description: "User find"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        "401":
+          description: Not authenticated
   /users:
     get:
       tags:
@@ -57,7 +84,6 @@ paths:
         "400":
           description: "bad input parameter"
       x-swagger-router-controller: "User"
-  /createUser:
     post:
       tags:
       - "User"
@@ -92,7 +118,6 @@ paths:
         "409":
           description: "an existing user already exists"
       x-swagger-router-controller: "User"
-  /editUser:
     put:
       tags:
       - "User"
@@ -127,7 +152,6 @@ paths:
         "409":
           description: "the parameters already exists"
       x-swagger-router-controller: "User"
-  /deleteUser:
     delete:
       tags:
       - "User"
@@ -191,7 +215,6 @@ paths:
         "400":
           description: "There is no messages from this user"
       x-swagger-router-controller: "Message"
-  /createMessage:
     post:
       tags:
       - "Message"
@@ -218,7 +241,6 @@ paths:
         "400":
           description: "User no existing"
       x-swagger-router-controller: "Message"
-  /editeMessage:
     put:
       tags:
       - "Message"
@@ -249,7 +271,6 @@ paths:
         "409":
           description: "the parameters already exists"
       x-swagger-router-controller: "Message"
-  /deleteMessage:
     delete:
       tags:
       - "Message"
@@ -306,7 +327,6 @@ paths:
         "400":
           description: "The server does not exist"
       x-swagger-router-controller: "Server"
-  /createServer:
     post:
       tags:
       - "Server"
@@ -330,7 +350,6 @@ paths:
         "400":
           description: "Role does not exist"
       x-swagger-router-controller: "Server"
-  /editServer:
     put:
       tags:
       - "Server"
@@ -353,7 +372,6 @@ paths:
         "409":
           description: "the parameters already exists"
       x-swagger-router-controller: "Server"
-  /deleteServer:
     delete:
       tags:
       - "Server"
@@ -403,7 +421,6 @@ paths:
         "400":
           description: "The channel does not exist"
       x-swagger-router-controller: "Channel"
-  /createChannel:
     post:
       tags:
       - "Channel"
@@ -427,7 +444,6 @@ paths:
         "400":
           description: "channel does already exist"
       x-swagger-router-controller: "Channel"
-  /editChannel:
     put:
       tags:
       - "Channel"
@@ -450,7 +466,6 @@ paths:
         "409":
           description: "the parameters already exists"
       x-swagger-router-controller: "Channel"
-  /deleteChannel:
     delete:
       tags:
       - "Channel"
@@ -507,27 +522,24 @@ definitions:
     required:
     - "email"
     - "id"
-    - "name"
+    - "userName"
     - "password"
     properties:
       id:
         type: "string"
         format: "uuid"
-        example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
-      name:
+      userName:
         type: "string"
-        example: "John Doe"
       password:
         type: "string"
-        example: "johndoe"
       email:
         type: "string"
-        example: "john.doe@gmail.com"
     example:
-      password: "johndoe"
-      name: "John Doe"
-      id: "d290f1ee-6c54-4b01-90e6-d701748f0851"
-      email: "john.doe@gmail.com"
+      id: de5de55qsqss5qq
+      userName: Isatys
+      password: riviere
+      email: isatys.riviere@ynov.com
+
   Message:
     type: "object"
     properties:
@@ -588,3 +600,22 @@ definitions:
     example:
       role: "johnD"
       channelName: "Anglais"
+securityDefinitions:
+  BasicAuth:
+    type: basic
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  OAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://example.com/oauth/authorize
+    tokenUrl: https://example.com/oauth/token
+    scopes:
+      read: Grants read access
+      write: Grants write access
+      admin: Grants read and write access to administrative information
+security:
+  - ApiKeyAuth: []
+  - OAuth2: [read, write]
