@@ -52,6 +52,10 @@ paths:
               $ref: "#/definitions/User"
         "401":
           description: Not authenticated
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
   /users:
     get:
       tags:
@@ -63,6 +67,10 @@ paths:
       - "application/json"
       parameters:
       - name: "userName"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "password"
         in: "query"
         required: false
         type: "string"
@@ -83,6 +91,12 @@ paths:
               $ref: "#/definitions/User"
         "400":
           description: "bad input parameter"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "User"
     post:
       tags:
@@ -115,6 +129,12 @@ paths:
           description: "user created"
         "400":
           description: "invalid input, object invalid"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
         "409":
           description: "an existing user already exists"
       x-swagger-router-controller: "User"
@@ -149,6 +169,12 @@ paths:
           description: "user updated"
         "400":
           description: "invalid input, object invalid"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
         "409":
           description: "the parameters already exists"
       x-swagger-router-controller: "User"
@@ -183,7 +209,43 @@ paths:
           description: "User that was deleted"
         "400":
           description: "The user does not exist"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "User"
+  /messages/{id}:
+    get:
+      summary: Gets a message by ID.
+      operationId: "messages"
+      security:
+        - OAuth2: [admin]
+      tags:
+        - "Message"
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          description: Message ID
+          type: integer
+          required: true
+      responses:
+        "200":
+          description: "Message find"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Message"
+        "401":
+          description: Not authenticated
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
   /messages:
     get:
       tags:
@@ -214,6 +276,12 @@ paths:
               $ref: "#/definitions/Message"
         "400":
           description: "There is no messages from this user"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Message"
     post:
       tags:
@@ -240,6 +308,12 @@ paths:
           description: "Create new message"
         "400":
           description: "User no existing"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Message"
     put:
       tags:
@@ -268,6 +342,12 @@ paths:
           description: "message updated"
         "400":
           description: "invalid input, object invalid"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
         "409":
           description: "the parameters already exists"
       x-swagger-router-controller: "Message"
@@ -298,6 +378,12 @@ paths:
           description: "Message that was deleted"
         "400":
           description: "The user does not exist"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Message"
   /server:
     get:
@@ -326,6 +412,12 @@ paths:
               $ref: "#/definitions/Server"
         "400":
           description: "The server does not exist"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Server"
     post:
       tags:
@@ -349,6 +441,12 @@ paths:
           description: "Create new server"
         "400":
           description: "Role does not exist"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Server"
     put:
       tags:
@@ -369,6 +467,12 @@ paths:
           description: "server updated"
         "400":
           description: "invalid input, object invalid"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
         "409":
           description: "the parameters already exists"
       x-swagger-router-controller: "Server"
@@ -392,6 +496,12 @@ paths:
           description: "Th server that was deleted"
         "400":
           description: "The server does not exist"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Server"
   /channel:
     get:
@@ -420,6 +530,12 @@ paths:
               $ref: "#/definitions/Channel"
         "400":
           description: "The channel does not exist"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Channel"
     post:
       tags:
@@ -443,6 +559,12 @@ paths:
           description: "Create new channel"
         "400":
           description: "channel does already exist"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Channel"
     put:
       tags:
@@ -463,6 +585,12 @@ paths:
           description: "channel updated"
         "400":
           description: "invalid input, object invalid"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
         "409":
           description: "the parameters already exists"
       x-swagger-router-controller: "Channel"
@@ -486,6 +614,12 @@ paths:
           description: "The channel that was deleted"
         "400":
           description: "The channel does not exist"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Channel"
   /role:
     get:
@@ -515,6 +649,12 @@ paths:
               $ref: "#/definitions/Role"
         "400":
           description: "User is not role"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not found"
       x-swagger-router-controller: "Role"
 definitions:
   User:
@@ -534,10 +674,13 @@ definitions:
         type: "string"
       email:
         type: "string"
+      role:
+        type: "string"
     example:
       id: de5de55qsqss5qq
       userName: Isatys
       password: riviere
+      role: Admin
       email: isatys.riviere@ynov.com
 
   Message:
