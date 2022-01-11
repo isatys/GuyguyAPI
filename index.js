@@ -6,6 +6,7 @@ var fs = require('fs'),
 // MongoDB with mongoose
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
+<<<<<<< HEAD
 let db
  
 MongoClient.connect(url, function(err, db) {
@@ -13,6 +14,14 @@ MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("DiscordAPI");
     db.close();
+=======
+const dbName = 'DiscordAPI';
+let db
+ 
+MongoClient.connect(url, function(err, client) {
+  console.log("Connected successfully to server");
+  db = client.db(dbName);
+>>>>>>> main
 });
 
 var express = require('express');
