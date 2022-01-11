@@ -5,8 +5,8 @@ var Server = require('../service/ServerService');
 
 module.exports.createServer = function createServer (req, res, next) {
   var serverName = req.swagger.params['serverName'].value;
-  var admin = req.swagger.params['admin'].value;
-  Server.createServer(serverName,admin)
+  var role = req.swagger.params['role'].value;
+  Server.createServer(serverName,role)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -39,8 +39,8 @@ module.exports.editServer = function editServer (req, res, next) {
 
 module.exports.server = function server (req, res, next) {
   var serverName = req.swagger.params['serverName'].value;
-  var admin = req.swagger.params['admin'].value;
-  Server.server(serverName,admin)
+  var role = req.swagger.params['role'].value;
+  Server.server(serverName,role)
     .then(function (response) {
       utils.writeJson(res, response);
     })

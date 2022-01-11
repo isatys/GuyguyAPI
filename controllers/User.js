@@ -7,8 +7,8 @@ module.exports.createUser = function createUser (req, res, next) {
   var userName = req.swagger.params['userName'].value;
   var password = req.swagger.params['password'].value;
   var email = req.swagger.params['email'].value;
-  var userAdmin = req.swagger.params['userAdmin'].value;
-  User.createUser(userName,password,email,userAdmin)
+  var role = req.swagger.params['role'].value;
+  User.createUser(userName,password,email,role)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -20,9 +20,9 @@ module.exports.createUser = function createUser (req, res, next) {
 module.exports.deleteUser = function deleteUser (req, res, next) {
   var email = req.swagger.params['email'].value;
   var userName = req.swagger.params['userName'].value;
-  var userAdmin = req.swagger.params['userAdmin'].value;
+  var role = req.swagger.params['role'].value;
   var password = req.swagger.params['password'].value;
-  User.deleteUser(email,userName,userAdmin,password)
+  User.deleteUser(email,userName,role,password)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -33,10 +33,10 @@ module.exports.deleteUser = function deleteUser (req, res, next) {
 
 module.exports.editUser = function editUser (req, res, next) {
   var userName = req.swagger.params['userName'].value;
-  var userAdmin = req.swagger.params['userAdmin'].value;
+  var role = req.swagger.params['role'].value;
   var password = req.swagger.params['password'].value;
   var email = req.swagger.params['email'].value;
-  User.editUser(userName,userAdmin,password,email)
+  User.editUser(userName,role,password,email)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -48,8 +48,8 @@ module.exports.editUser = function editUser (req, res, next) {
 module.exports.users = function users (req, res, next) {
   var email = req.swagger.params['email'].value;
   var userName = req.swagger.params['userName'].value;
-  var userAdmin = req.swagger.params['userAdmin'].value;
-  User.users(email,userName,userAdmin)
+  var role = req.swagger.params['role'].value;
+  User.users(email,userName,role)
     .then(function (response) {
       utils.writeJson(res, response);
     })
