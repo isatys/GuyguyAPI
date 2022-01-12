@@ -13,11 +13,11 @@ host: "virtserver.swaggerhub.com"
 basePath: "/ynov-Campus/APYTypeDiscord/1.0.0"
 
 tags:
-- name: "User"
+- name: "Users"
   description: "Instant messaging users"
-- name: "Message"
+- name: "Messages"
   description: "Messages sent by users"
-- name: "Server"
+- name: "Servers"
   description: "administrators' servers"
 - name: "Role"
   description: "An administrator is a user with more permissions"
@@ -59,7 +59,7 @@ paths:
   /users:
     get:
       tags:
-      - "User"
+      - "Users"
       summary: "The list of users"
       description: "List of users\n"
       operationId: "users"
