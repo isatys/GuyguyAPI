@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "toto",
+    "server": ["geekServ"]
+  },
+  {
+    "id": 2,
+    "name": "tata",
+    "server": ["server2"]
+  }
+]

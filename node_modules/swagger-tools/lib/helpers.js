@@ -70,20 +70,20 @@ module.exports.createJsonValidator = function createJsonValidator (schemas) {
 module.exports.formatResults = function formatResults (results) {
   if (results) {
     // Update the results based on its content to indicate success/failure accordingly
-    return results.errors.length + results.warnings.length +
+    results = (results.errors.length + results.warnings.length +
     _.reduce(results.apiDeclarations, function (count, aResult) {
       if (aResult) {
         count += aResult.errors.length + aResult.warnings.length;
       }
 
       return count;
-    }, 0) > 0 ? results : undefined;
+    }, 0) > 0) ? results : undefined;
   }
 
   return results;
 };
 
-module.exports.getErrorCount = function getErrorCount (results) {
+var getErrorCount = module.exports.getErrorCount = function getErrorCount (results) {
   var errors = 0;
 
   if (results) {
@@ -99,7 +99,7 @@ module.exports.getErrorCount = function getErrorCount (results) {
   return errors;
 };
 
-var coerseVersion = function coerseVersion (version) {
+var coerceVersion = function coerceVersion (version) {
   // Convert the version to a number (Required for helpers.getSpec)
   if (version && !_.isString(version)) {
     version = version.toString();
@@ -124,7 +124,7 @@ var coerseVersion = function coerseVersion (version) {
 module.exports.getSpec = function getSpec (version, throwError) {
   var spec;
 
-  version = coerseVersion(version);
+  version = coerceVersion(version);
   spec = specCache[version];
 
   if (_.isUndefined(spec)) {
@@ -157,36 +157,24 @@ module.exports.getSpec = function getSpec (version, throwError) {
  * @returns the Swagger version or undefined if the document is not a Swagger document
  */
 module.exports.getSwaggerVersion = function getSwaggerVersion (document) {
-  return _.isPlainObject(document) ? coerseVersion(document.swaggerVersion || document.swagger) : undefined;
-};
-
-/**
- * Takes an array of path segments and creates a JSON pointer from it. (2.0 only)
- *
- * @param {string[]} path - The path segments
- *
- * @returns a JSON pointer for the reference denoted by the path segments
- */
-var toJsonPointer = module.exports.toJsonPointer = function toJsonPointer (path) {
-  // http://tools.ietf.org/html/rfc6901#section-4
-  return '#/' + path.map(function (part) {
-    return part.replace(/~/g, '~0').replace(/\//g, '~1');
-  }).join('/');
+  return _.isPlainObject(document) ? coerceVersion(document.swaggerVersion || document.swagger) : undefined;
 };
 
 module.exports.printValidationResults = function printValidationResults (version, apiDOrSO, apiDeclarations, results,
-                                                                         printSummary, endProcess) {
+                                                                         printSummary) {
+  var hasErrors = getErrorCount(results) > 0;
+  var stream = hasErrors ? console.error : console.log;
   var pluralize = function pluralize (string, count) {
     return count === 1 ? string : string + 's';
   };
   var printErrorsOrWarnings = function printErrorsOrWarnings (header, entries, indent) {
     if (header) {
-      console.error(header + ':');
-      console.error();
+      stream(header + ':');
+      stream();
     }
 
     _.each(entries, function (entry) {
-      console.error(new Array(indent + 1).join(' ') + toJsonPointer(entry.path) + ': ' + entry.message);
+      stream(new Array(indent + 1).join(' ') + JsonRefs.pathToPointer(entry.path) + ': ' + entry.message);
 
       if (entry.inner) {
         printErrorsOrWarnings (undefined, entry.inner, indent + 2);
@@ -194,13 +182,13 @@ module.exports.printValidationResults = function printValidationResults (version
     });
 
     if (header) {
-      console.error();
+      stream();
     }
   };
   var errorCount = 0;
   var warningCount = 0;
 
-  console.error();
+  stream();
 
   if (results.errors.length > 0) {
     errorCount += results.errors.length;
@@ -238,16 +226,14 @@ module.exports.printValidationResults = function printValidationResults (version
 
   if (printSummary) {
     if (errorCount > 0) {
-      console.error(errorCount + ' ' + pluralize('error', errorCount) + ' and ' + warningCount + ' ' +
+      stream(errorCount + ' ' + pluralize('error', errorCount) + ' and ' + warningCount + ' ' +
                     pluralize('warning', warningCount));
     } else {
-      console.error('Validation succeeded but with ' + warningCount + ' ' + pluralize('warning', warningCount));
+      stream('Validation succeeded but with ' + warningCount + ' ' + pluralize('warning', warningCount));
     }
   }
 
-  if (errorCount > 0 && endProcess) {
-    process.exit(1);
-  }
+  stream();
 };
 
 module.exports.swaggerOperationMethods = [
