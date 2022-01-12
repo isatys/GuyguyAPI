@@ -5,8 +5,8 @@ var Channel = require('../service/ChannelService');
 
 module.exports.channel = function channel (req, res, next) {
   var channelName = req.swagger.params['channelName'].value;
-  var admin = req.swagger.params['admin'].value;
-  Channel.channel(channelName,admin)
+  var role = req.swagger.params['role'].value;
+  Channel.channel(channelName,role)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -17,8 +17,8 @@ module.exports.channel = function channel (req, res, next) {
 
 module.exports.createChannel = function createChannel (req, res, next) {
   var serverName = req.swagger.params['serverName'].value;
-  var admin = req.swagger.params['admin'].value;
-  Channel.createChannel(serverName,admin)
+  var role = req.swagger.params['role'].value;
+  Channel.createChannel(serverName,role)
     .then(function (response) {
       utils.writeJson(res, response);
     })
