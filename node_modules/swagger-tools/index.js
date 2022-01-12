@@ -80,7 +80,9 @@ var initializeMiddleware = function initializeMiddleware (rlOrSO, resources, cal
       if (process.env.NODE_ENV === 'test') {
         throw err;
       } else {
-        return helpers.printValidationResults(spec.version, rlOrSO, resources, results, true, true);
+        helpers.printValidationResults(spec.version, rlOrSO, resources, results, true);
+
+        process.exit(helpers.getErrorCount(results) > 0 ? 1 : 0);
       }
     }
 

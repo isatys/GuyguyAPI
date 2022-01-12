@@ -16,14 +16,8 @@
     "connect": "^3.2.0",
     "express": "^4.17.2",
     "js-yaml": "^3.3.0",
-<<<<<<< HEAD
-    "mongoose": "^6.1.5",
-    "swagger-tools": "0.10.1",
-    "swagger-ui-express": "^4.3.0"
-=======
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.5",
     "swagger-tools": "^0.8.6"
->>>>>>> main
   }
 }

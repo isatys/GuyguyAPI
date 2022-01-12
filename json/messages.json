@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "user": "toto",
+    "message": "Bonjour a tous ceci est un test",
+    "server": "geekServ"
+  },
+  {
+    "id": 2,
+    "user": "tata",
+    "message": "le message du test",
+    "server": "server2"
+  }
+]
